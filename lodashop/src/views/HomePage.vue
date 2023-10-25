@@ -26,6 +26,7 @@
         <h2>Promotions</h2>
         <div class="promotion-list">
           <!-- Display promotions here -->
+          <GameCard />
         </div>
       </section>
     </div>
@@ -37,12 +38,12 @@
 // import { useMovieStore } from '../stores/movie'
 // import { useGenreStore } from '../stores/genre';
 import { mapState, mapWritableState, mapActions } from 'pinia'
-// import GameCard from '../components/GameCard.vue'
-// import PromoBanner from '../components/PromoBanner.vue'
-// import NavBar from '../components/NavBar.vue'
+import GameCard from '../components/GameCard.vue'
+import PromoBanner from '../components/PromoBanner.vue'
+import NavBar from '../components/NavBar.vue'
 
 export default {
-  // components: { GameCard, NavBar, PromoBanner }
+  components: { GameCard, NavBar, PromoBanner }
   // computed: {
   //   ...mapState(useMovieStore, ['movies']),
   //   ...mapState(useGenreStore, ['genres']),

@@ -5,9 +5,8 @@
     </div>
     <div class="navbar-links">
       <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
-      <router-link to="/services">Services</router-link>
-      <router-link to="/contact">Contact</router-link>
+      <router-link to="/login">Login</router-link>
+      <router-link to="/register">Register</router-link>
     </div>
   </nav>
 </template>
@@ -38,8 +37,4 @@ import { RouterLink } from 'vue-router'
 // }
 </script>
 
-<style scoped>
-.comment:hover {
-  cursor: pointer;
-}
-</style>
+<style scoped></style>

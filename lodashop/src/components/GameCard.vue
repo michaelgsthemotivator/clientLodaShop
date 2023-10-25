@@ -12,18 +12,6 @@
         <slot>asdfasdfa</slot>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header">Genshin Impact</div>
-      <div class="card-body">
-        <slot>asdfasdfa</slot>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">Genshin Impact</div>
-      <div class="card-body">
-        <slot>asdfasdfa</slot>
-      </div>
-    </div>
   </div>
 </template>
 
