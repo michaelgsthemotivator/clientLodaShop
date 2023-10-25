@@ -5,10 +5,9 @@
       <!-- Hero Section -->
       <section class="hero">
         <div class="hero-content">
-          <h1>Welcome to Top-Up Games</h1>
+          <h1>Welcome to LodaShop</h1>
           <PromoBanner />
           <p>Get ready to top up and enjoy your favorite games.</p>
-          <router-link to="/top-up" class="cta-button">Top Up Now</router-link>
         </div>
       </section>
 
@@ -17,15 +16,6 @@
         <h2>Featured Games</h2>
         <div class="game-list">
           <!-- Display featured games here -->
-          <GameCard />
-        </div>
-      </section>
-
-      <!-- Promotions Section -->
-      <section class="promotions">
-        <h2>Promotions</h2>
-        <div class="promotion-list">
-          <!-- Display promotions here -->
           <GameCard />
         </div>
       </section>
