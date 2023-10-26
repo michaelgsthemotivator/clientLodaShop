@@ -4,6 +4,7 @@ import LoginPage from '../views/LoginPage.vue'
 import HomePage from '../views/HomePage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 import TopupPage from '../views/TopupPage.vue'
+import HistoryPage from '../views/HistoryPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,12 +32,32 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginPage
+      component: LoginPage,
+      beforeEnter: () => {
+        if (localStorage.getItem('access_token')) {
+          return { name: 'home' }
+        }
+      }
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterPage
+      component: RegisterPage,
+      beforeEnter: () => {
+        if (localStorage.getItem('access_token')) {
+          return { name: 'home' }
+        }
+      }
+    },
+    {
+      path: '/histories',
+      name: 'histories',
+      component: HistoryPage,
+      beforeEnter: () => {
+        if (!localStorage.getItem('access_token')) {
+          return { name: 'login' }
+        }
+      }
     }
   ]
 })

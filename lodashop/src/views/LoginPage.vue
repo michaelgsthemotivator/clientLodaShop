@@ -1,29 +1,35 @@
 <template>
-  <div class="login-page">
-    <div class="login-form">
-      <h2>Login</h2>
-      <form @submit.prevent="submitLogin">
-        <div class="form-group">
-          <label for="username">Username:</label>
-          <input type="text" id="username" v-model="loginForm.email" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="loginForm.password" required />
-        </div>
-        <button type="submit">Log In</button>
-      </form>
+  <div>
+    <Navbar />
+    <div class="login-page">
+      <div class="login-form">
+        <h2>Login</h2>
+        <form @submit.prevent="submitLogin">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" v-model="loginForm.email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" v-model="loginForm.password" required />
+          </div>
+          <button type="submit">Log In</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import NavBar from '../components/NavBar.vue'
 import { useCounterStore } from '../stores/counter'
 import { mapActions, mapWritableState } from 'pinia'
 import { RouterLink } from 'vue-router'
 
 export default {
-  components: { RouterLink },
+  components: {
+    NavBar
+  },
   data() {
     return {
       loginForm: {

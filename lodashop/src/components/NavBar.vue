@@ -47,7 +47,13 @@
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <button
+            class="btn btn-outline-success my-2 my-sm-0"
+            @submit.prevent="search"
+            type="submit"
+          >
+            Search
+          </button>
         </form>
       </div>
     </nav>
@@ -68,7 +74,8 @@ export default {
       localStorage.removeItem('access_token')
       this.isAuthenticated = false
       this.$router.push('/login')
-    }
+    },
+    search() {}
   }
 }
 </script>

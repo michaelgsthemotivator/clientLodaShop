@@ -9,6 +9,9 @@ export const useCounterStore = defineStore('counter', {
 
       games: [],
 
+      transactions: [],
+      histories: [],
+
       qrcode: ''
     }
   },
@@ -65,6 +68,7 @@ export const useCounterStore = defineStore('counter', {
     },
     async gameById(id) {
       try {
+        console.log(id, 'hallo')
         const { data } = await axios({
           url: this.baseURL + '/games/' + id,
           headers: {
@@ -72,6 +76,32 @@ export const useCounterStore = defineStore('counter', {
           }
         })
         this.games = data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getTransactions(id) {
+      try {
+        const { data } = await axios({
+          url: this.baseURL + '/transactions/',
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+        this.transactions = data.filter((transactions) => transactions.GameId == id) //2 kali sama dengan,,
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getHistories() {
+      try {
+        const { data } = await axios({
+          url: this.baseURL + '/histories/',
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+        this.histories = data
       } catch (error) {
         console.log(error)
       }
@@ -90,6 +120,40 @@ export const useCounterStore = defineStore('counter', {
         })
 
         this.qrcode = data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async topup(price) {
+      try {
+        await axios({
+          method: 'post',
+          url: this.baseURL + '/register',
+          data: registerData
+        })
+
+        window.snap.embed('YOUR_SNAP_TOKEN', {
+          embedId: 'snap-container',
+          onSuccess: function (result) {
+            /* You may add your own implementation here */
+            alert('payment success!')
+            console.log(result)
+          },
+          onPending: function (result) {
+            /* You may add your own implementation here */
+            alert('wating your payment!')
+            console.log(result)
+          },
+          onError: function (result) {
+            /* You may add your own implementation here */
+            alert('payment failed!')
+            console.log(result)
+          },
+          onClose: function () {
+            /* You may add your own implementation here */
+            alert('you closed the popup without finishing the payment')
+          }
+        })
       } catch (error) {
         console.log(error)
       }

@@ -7,14 +7,17 @@ import { useCounterStore } from '../stores/counter'
 export default {
   components: { NavBar, TransactionList },
   computed: {
-    ...mapState(useCounterStore, ['games', 'qrcode'])
+    ...mapState(useCounterStore, ['games', 'qrcode', 'transactions'])
   },
   methods: {
-    ...mapActions(useCounterStore, ['gameById', 'generateQrCode'])
+    ...mapActions(useCounterStore, ['gameById', 'generateQrCode', 'getTransactions'])
   },
 
   async created() {
-    this.gameById()
+    this.gameById(this.$route.params.id) //mengirim params menggunakan route, karena mengirim data
+
+    this.getTransactions(this.$route.params.id)
+
     await this.generateQrCode(window.location.href)
   }
 }
@@ -23,7 +26,11 @@ export default {
 <template>
   <div>
     <NavBar />
-    <TransactionList v-for="game in games.Transactions" :key="game.id" :game="game" />
+    <TransactionList
+      v-for="transaction in transactions"
+      :key="transaction.id"
+      :transaction="transaction"
+    />
     <div class="col-lg-6 col-md-6">
       <ul>
         <div v-html="qrcode.qrcode" style="width: 10rem; height: 10rem"></div>
