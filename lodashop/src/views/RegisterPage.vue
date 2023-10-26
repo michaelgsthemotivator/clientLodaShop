@@ -2,7 +2,7 @@
   <div class="register-page">
     <div class="register-form">
       <h2>Register</h2>
-      <form @submit.prevent="register">
+      <form @submit.prevent="submitRegister">
         <div class="form-group">
           <label for="username">Username:</label>
           <input type="text" id="username" v-model="registerForm.username" required />
@@ -30,9 +30,8 @@
 </template>
 
 <script>
-// import { useCustomerStore } from '../stores/customer'
+import { useCounterStore } from '../stores/counter'
 import { mapActions, mapWritableState } from 'pinia'
-// import $ from 'jquery'
 
 export default {
   data() {
@@ -45,48 +44,20 @@ export default {
         address: ''
       }
     }
+  },
+  computed: {
+    ...mapWritableState(useCounterStore, ['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(useCounterStore, ['register']),
+    async submitRegister() {
+      const res = await this.register(this.registerForm)
+      if (res.access_token) {
+        localStorage.access_token = res.access_token
+        this.isAuthenticated = true
+        this.$router.push({ name: 'login' })
+      }
+    }
   }
-  // computed: {
-  //   ...mapWritableState(useCustomerStore, ['isAuthenticated'])
-  // },
-  // methods: {
-  //   ...mapActions(useCustomerStore, ['register', 'googleLogin']),
-  //   async submitRegister() {
-  //     const res = await this.register(this.registerForm)
-  //     if (res.access_token) {
-  //       localStorage.access_token = res.access_token;
-  //       this.isAuthenticated = true
-  //       this.$router.push({ name: 'home' });
-  //       this.$toast.success('Successfully logged in!', {
-  //         duration: 2000
-  //       })
-  //     } else {
-  //       this.$toast.error(res.response.data.message, {
-  //         duration: 2000
-  //       })
-  //     }
-  //   },
-  //   async submitLoginGoogle(response) {
-  //     const res = await this.googleLogin(response)
-  //     if (res.access_token) {
-  //       localStorage.access_token = res.access_token;
-  //       this.isAuthenticated = true
-  //       this.$router.push({ name: 'home' });
-  //       this.$toast.success('Successfully logged in!', {
-  //         duration: 2000
-  //       })
-  //     } else {
-  //       this.$toast.error(res.response.data.message, {
-  //         duration: 2000
-  //       })
-  //     }
-  //   }
-  // },
-  // mounted() {
-  //   $('.set-bg').each(function () {
-  //     var bg = $(this).data('setbg');
-  //     $(this).css('background-image', 'url(' + bg + ')');
-  //   });
-  // }
 }
 </script>

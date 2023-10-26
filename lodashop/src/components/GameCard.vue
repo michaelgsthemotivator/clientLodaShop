@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div class="card">
-      <div class="card-header">Genshin Impact</div>
+    <div class="card" style="width: 18rem">
+      <img class="card-img-top" :src="game.imageUrl" alt="Card image cap" />
       <div class="card-body">
-        <slot>asdfasdfa</slot>
+        <h5 class="card-title">{{ game.name }}</h5>
+
+        <!-- <a href="#" class="btn btn-primary">Top Up</a> -->
+        <router-link :to="'/topup/' + game.id" class="btn btn-primary">Top Up</router-link>
       </div>
     </div>
   </div>
@@ -11,11 +14,11 @@
 
 <script>
 import { mapActions } from 'pinia'
+import { useCounterStore } from '../stores/counter'
 import { RouterLink } from 'vue-router'
+export default {
+  props: ['game'] //ngelisten dari v-for <GameCard /> di home
+}
 </script>
 
-<style scoped>
-.comment:hover {
-  cursor: pointer;
-}
-</style>
+<style scoped></style>
