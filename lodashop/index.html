@@ -10,6 +10,11 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <script
+      type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SET_YOUR_CLIENT_KEY_HERE"
+    ></script>
     <title>LodaShop</title>
   </head>
   <body>
@@ -29,14 +34,7 @@
       crossorigin="anonymous"
     ></script>
     <div id="app"></div>
-    <script type="text/javascript">
-      // For example trigger on button clicked, or any time you need
-      var payButton = document.getElementById('pay-button')
-      payButton.addEventListener('click', function () {
-        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token.
-        // Also, use the embedId that you defined in the div above, here.
-      })
-    </script>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

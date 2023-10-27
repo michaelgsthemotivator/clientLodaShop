@@ -1,3 +1,38 @@
+<script>
+import { useCounterStore } from '../stores/counter'
+import { mapActions, mapWritableState } from 'pinia'
+import NavBar from '../components/NavBar.vue'
+
+export default {
+  data() {
+    return {
+      registerForm: {
+        username: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+        address: ''
+      }
+    }
+  },
+  components: { NavBar },
+  computed: {
+    ...mapWritableState(useCounterStore, ['isAuthenticated'])
+  },
+  methods: {
+    ...mapActions(useCounterStore, ['register']),
+    async submitRegister() {
+      const res = await this.register(this.registerForm)
+      if (res.access_token) {
+        localStorage.access_token = res.access_token
+        this.isAuthenticated = true
+        this.$router.push({ name: 'login' })
+      }
+    }
+  }
+}
+</script>
+
 <template>
   <div>
     <NavBar />
@@ -37,37 +72,21 @@
   </div>
 </template>
 
-<script>
-import { useCounterStore } from '../stores/counter'
-import { mapActions, mapWritableState } from 'pinia'
-import NavBar from '../components/NavBar.vue'
-
-export default {
-  data() {
-    return {
-      registerForm: {
-        username: '',
-        email: '',
-        password: '',
-        phoneNumber: '',
-        address: ''
-      }
-    }
-  },
-  components: { NavBar },
-  computed: {
-    ...mapWritableState(useCounterStore, ['isAuthenticated'])
-  },
-  methods: {
-    ...mapActions(useCounterStore, ['register']),
-    async submitRegister() {
-      const res = await this.register(this.registerForm)
-      if (res.access_token) {
-        localStorage.access_token = res.access_token
-        this.isAuthenticated = true
-        this.$router.push({ name: 'login' })
-      }
-    }
-  }
+<style>
+.register-page {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 85vh; /* 100% viewport height */
 }
-</script>
+
+.register-form {
+  text-align: center; /* Center the content within the register-form div */
+}
+
+.form-group {
+  margin-bottom: 1rem; /* Add margin between form groups */
+}
+
+/* Add other necessary styles for form elements */
+</style>

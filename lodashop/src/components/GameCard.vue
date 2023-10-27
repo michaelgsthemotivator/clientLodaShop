@@ -13,9 +13,6 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
-import { useCounterStore } from '../stores/counter'
-import { RouterLink } from 'vue-router'
 export default {
   props: ['game'] //ngelisten dari v-for <GameCard /> di home
 }

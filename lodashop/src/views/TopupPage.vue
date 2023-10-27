@@ -18,7 +18,7 @@ export default {
 
     this.getTransactions(this.$route.params.id)
 
-    await this.generateQrCode(window.location.href)
+    this.generateQrCode(window.location.href)
   }
 }
 </script>
@@ -38,3 +38,5 @@ export default {
     </div>
   </div>
 </template>
+
+<style scooped></style>

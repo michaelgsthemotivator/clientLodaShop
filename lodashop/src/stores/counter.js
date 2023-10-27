@@ -1,5 +1,17 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import Swal from 'sweetalert2'
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
 
 export const useCounterStore = defineStore('counter', {
   state: () => {
@@ -12,7 +24,8 @@ export const useCounterStore = defineStore('counter', {
       transactions: [],
       histories: [],
 
-      qrcode: ''
+      qrcode: '',
+      midtranstoken: ''
     }
   },
   actions: {
@@ -51,13 +64,15 @@ export const useCounterStore = defineStore('counter', {
           endpoint += `?page=${page}`
         }
 
+        //axios selalu membawa sebagai {data}
+        //dibawah akan dikirim ke controller getGamewithpagination
         const { data } = await axios({
           url: this.baseURL + endpoint,
           headers: {
             access_token: localStorage.getItem('access_token')
           }
         })
-
+        console.log(data)
         this.games = data
         if (data.length <= 0) {
           return page - 1
@@ -68,7 +83,7 @@ export const useCounterStore = defineStore('counter', {
     },
     async gameById(id) {
       try {
-        console.log(id, 'hallo')
+        // console.log(id, 'hallo')
         const { data } = await axios({
           url: this.baseURL + '/games/' + id,
           headers: {
@@ -124,34 +139,70 @@ export const useCounterStore = defineStore('counter', {
         console.log(error)
       }
     },
-    async topup(price) {
+    async postHistories(id) {
       try {
+        console.log(id)
         await axios({
           method: 'post',
-          url: this.baseURL + '/register',
-          data: registerData
+          url: this.baseURL + '/histories/' + id,
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
         })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async midtranstoken(id) {
+      try {
+        const cbHistories = this.postHistories
+        const { data } = await axios({
+          method: 'post',
+          url: this.baseURL + '/midtranstoken',
+          data: { id }, //dikirim ke generatemidtranstoken,
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+        this.midtranstoken = data.transactionToken
 
-        window.snap.embed('YOUR_SNAP_TOKEN', {
-          embedId: 'snap-container',
-          onSuccess: function (result) {
+        window.snap.pay(data.transactionToken, {
+          onSuccess: async function (result) {
             /* You may add your own implementation here */
-            alert('payment success!')
+            await cbHistories(id)
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Success'
+            })
+            // alert('payment success!')
+            //alert bawaan windows
+
             console.log(result)
           },
           onPending: function (result) {
             /* You may add your own implementation here */
-            alert('wating your payment!')
+            // alert('wating your payment!')
+
             console.log(result)
           },
           onError: function (result) {
             /* You may add your own implementation here */
-            alert('payment failed!')
+            // alert('payment failed!')
+
+            Toast.fire({
+              icon: 'error',
+              title: 'Failed'
+            })
             console.log(result)
           },
           onClose: function () {
             /* You may add your own implementation here */
-            alert('you closed the popup without finishing the payment')
+            // alert('you closed the popup without finishing the payment')
+            Toast.fire({
+              icon: 'error',
+              title: 'you closed the popup without finishing the payment'
+            })
           }
         })
       } catch (error) {
